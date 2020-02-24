@@ -1,4 +1,4 @@
-package com.lf.list;
+package com.lf.arraylist;
 
 /**
  * 动态数组（4个属性和10个接口）：
@@ -75,7 +75,7 @@ public class ArrayList<E> {
 		return old;
 	}
 	
-	// 这里有点问题：如果 index 位置没元素，会报错
+	// 这里有点问题：如果 index 位置没元素，会报错(所以使用者在调用该方法前要判断index位置有元素)
 	public E set(int index, E element) {
 		rangeCheck(index);
 		
@@ -149,8 +149,11 @@ public class ArrayList<E> {
 		
 		for (int i = 0; i < size; i++) {
 			if (i != 0) { string.append(", "); }
+//			string.append("\n");
 			string.append(elements[i]);
 		}
+		
+//		string.append("\n");
 		string.append("]");
 		
 		return string.toString();

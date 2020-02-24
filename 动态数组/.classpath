@@ -5,6 +5,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="com/lf/base/Main.java|com/lf/Main.java" kind="src" path="src"/>
+	<classpathentry excluding="com/lf/base/Main.java|com/lf/Main.java|com/lf/文档/|com/lf/list/文档.java|com/lf/list/动态数组文档.java|com/lf/arraylist/动态数组文档.java" kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
