@@ -82,27 +82,39 @@ public class DoubleLinkedList<E> {
 	
 }
 
+
 三、SinleCircleLinkedList 内部设计：
 
 和单向链表比较：
-相同点：属性、接口；
-不同点：只是 add 和 remove 方法，会涉及到最后那个 node 的 next 属性。
-
-
-疑问：
-1、单向循环链表，add方法这里：Node<E> node = new Node<>(element, first);，first为null，并不能表示指向自己啊，即使后面又赋值了。
-———— 解答：创建node对象后，后面还可以再赋值 next 属性。
+相同点：属性、接口，都一样；
+不同点：只是 add 和 remove 方法，会涉及到最后那个node的 next 属性，还有操作最前面node时的 first 变量的处理。
 
 public class SinleCircleLinkedList<E> {
 	
 	// 属性、接口同单向链表
-	
-	
-	
+	// 只是 add、remove 方法处理不太一样，特别是涉及到两端节点时要处理 node.next ，还有 first 变量。
 }
 
 
+四、DoubleCircleLinkedList 内部设计：
 
+和双向链表比较：
+相同点：属性、接口，都一样；
+不同点：只是 add 和 remove 方法，会涉及到最前面和最后那个 node 的 next 和 prev 属性，还有操作两端node时 first 和 last 变量的处理。
 
+public class DoubleCircleLinkedList<E> {
+	
+	// 属性、接口同双向链表
+	// 只是 add、remove 方法处理不太一样，特别是涉及到两端节点时要处理 node.next、node.prev，还有 first、last 变量。
+	
+}
 
+五、DoubleCircleLinkedList--强化版，内部设计：
+在 DoubleCircleLinkedList 的基础上，增加1个成员变量，3个方法，1个辅助删node：
+
+private Node<E> current;	// 指向某个节点
+public void reset();	// 让 current 指向 first 。
+public E next();		// 让 current 往后走一步， current = current.next 。
+public E remove(); 		// 删除 current 指向的节点，current 指向下一个 。
+private E remove(Node<E>);	// 辅助，删node节点，非根据 index 或 element 删节点。
 

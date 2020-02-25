@@ -1,13 +1,15 @@
 package com.lf.linkedlist;
 
+
 /*
- * 双向链表
+ * 双向循环链表--加强版
  */
-public class DoubleLinkedList<E> {
+public class DoubleCircleLinkedList2<E> {
 	
 	private int size;
 	private Node<E> first;
 	private Node<E> last;
+	private Node<E> current;
 	private static final int ELEMENT_NOT_FOUND = -1;
 	
 	private static class Node<E> {
@@ -20,7 +22,7 @@ public class DoubleLinkedList<E> {
 			this.next = next;
 		}
 		@Override
-		public String toString() {
+		public String toString() { // null_15_16 、 prev.element_element_next.element
 			StringBuilder s = new StringBuilder();
 			E prevElement = prev == null ? null : prev.element;
 			E nextElement = next == null ? null : next.element;
@@ -33,6 +35,27 @@ public class DoubleLinkedList<E> {
 		}
 	}
 	
+	
+	// 加强版新增的3个方法
+	public void reset() {
+		current = first;
+	}
+	
+	public E next() {
+		if (current == null) return null;
+		
+		current = current.next;
+		return current.element;
+	}
+	public E remove() {
+		if (current == null) return null;
+		
+		Node<E> next = current.next;
+		E element = remove(current);
+		current = size == 0 ? null : next;
+		
+		return element;
+	}
 
 	//10个public
 	public void clear() {
@@ -55,22 +78,33 @@ public class DoubleLinkedList<E> {
 		// 考虑2个边界：最前面、最后面，因为涉及到变量 first、last 的值的变化
 		if (index == 0) {
 			if (size == 0) {
-				Node<E> node = new Node<>(element, null, null);
-				node.next = node.prev = null;
-				first = last = node;
+				Node<E> prev = last; // null
+				Node<E> next = first; // null
+				Node<E> node = new Node<>(element, prev, next);
+				node.prev = node;
+				node.next = node;
+				first = node;
+				last = node;
+				
+//				Node<E> node = new Node<>(element, null, null);
+//				first = last = node.prev = node.next = node;
 				
 			} else {
-				Node<E> prev = null;
+				Node<E> prev = last;
 				Node<E> next = first;
 				Node<E> node = new Node<>(element, prev, next);
+				prev.next = node;
 				next.prev = node;
 				first = node;
+				
 			}
 		} else if (index == size) {
 			
 			Node<E> prev = last;
-			Node<E> node = new Node<>(element, prev, null);
+			Node<E> next = first;
+			Node<E> node = new Node<>(element, prev, next);
 			prev.next = node;
+			next.prev = node;
 			last = node;
 			
 		} else {
@@ -95,33 +129,47 @@ public class DoubleLinkedList<E> {
 				first = null;
 				last = null;
 			} else {
-				//prev.next = next;
+				prev.next = next;
 				next.prev = prev;
 				first = next;
 			}
 		} else if (index == (size - 1)) {
-			prev.next = next;//null
+			prev.next = next;
+			next.prev = prev;
+			last = prev;
+		} else {
+			prev.next = next;
+			next.prev = prev;
+		}
+		size--;
+		return node.element;
+	}
+	
+	private E remove(Node<E> node) {
+		
+		E old = node.element;
+		
+		Node<E> prev = node.prev;
+		Node<E> next = node.next;
+		if (prev == next) {
+			first = last = null;
+		} else if (prev == last) {
+			prev.next = next;
+			next.prev = prev;
+			first = next;
+		} else if (next == first) {
+			prev.next = next;
+			next.prev = prev;
 			last = prev;
 		} else {
 			prev.next = next;
 			next.prev = prev;
 		}
 		
-//		if (prev == null) {
-//			first = next;
-//		} else {
-//			prev.next = next;
-//		}
-//		
-//		if (next == null) {
-//			last = prev;
-//		} else {
-//			next.prev = prev;
-//		}
-		
-		size--;
-		return node.element;
+		size --;
+		return old;
 	}
+	
 	public E set(int index, E element) {
 		Node<E> node = node(index);
 		E old = node.element;

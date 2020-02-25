@@ -1,12 +1,14 @@
 package com.lf.linkedlist;
 
+/*
+ * 单向链表
+ */
 public class SingleLinkedList<E> {
 	
-	private Node<E> first;
-	
 	private int size;
+	private Node<E> first;
 	public static final int ELEMENT_NOT_FOUND = -1;
-
+	
 	private static class Node<E> {
 		E element;
 		Node<E> next;
@@ -16,7 +18,14 @@ public class SingleLinkedList<E> {
 		}
 		@Override
 		public String toString() {
-			return "Node [element=" + element + ", next=" + next.element + "]";
+			StringBuilder s = new StringBuilder();
+			E nextElement = next == null ? null : next.element;
+			s.append(element).append("_").append(nextElement);
+			return s.toString();
+		}
+		@Override
+		public void finalize() {
+			System.out.println("finalize = " + this.element);
 		}
 	}
 	
@@ -67,7 +76,6 @@ public class SingleLinkedList<E> {
 	}
 	
 	public E set(int index, E element) {
-//		rangeCheck(index);
 		Node<E> node = node(index);
 		E old = node.element;
 		node.element = element;
@@ -98,17 +106,7 @@ public class SingleLinkedList<E> {
 	public boolean contains(E element) {
 		return indexOf(element) != ELEMENT_NOT_FOUND;
 	}
-
-	private Node<E> node(int index) {
-		rangeCheck(index);
-		
-		Node<E> node = first;
-		for (int i = 0; i < index; i++) {
-			node = node.next;
-		}
-		return node;
-	}
-
+	
 	private void rangeCheckForAdd(int index) {
 		if (index < 0 || index > size) {
 			outOfBounds(index);
@@ -124,6 +122,16 @@ public class SingleLinkedList<E> {
 	
 	private void outOfBounds(int index) {
 		throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
+	}
+
+	private Node<E> node(int index) {
+		rangeCheck(index);
+		
+		Node<E> node = first;
+		for (int i = 0; i < index; i++) {
+			node = node.next;
+		}
+		return node;
 	}
 	
 	public String toString() {
