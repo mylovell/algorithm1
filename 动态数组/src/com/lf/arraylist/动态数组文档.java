@@ -6,7 +6,7 @@ package com.lf.arraylist;
 * 接口
 	* 10个public（主要功能：外界可以使用的服务）
 	* 2个contruct
-	* 5个private辅助(容量确保、越界处理、打印)
+	* 5（6）个private辅助(容量确保、越界处理、打印)
 
 * 属性（内存占用）
 	* 4个private
@@ -36,10 +36,11 @@ public E get(int index);
 public int indexOf(E element);
 public boolean contains(E element);
 
-// 5个private辅助
+// 5（6）个private辅助
 private void rangeCheckForAdd(int index);
 private void rangeCheck(int index);
 private void outOfBounds(int index);
-private void ensureCapacity(int capacity);
+private void ensureCapacity(int capacity);	//容量：扩容
+private void trim();						//容量：缩容（未实现）
 public String toString();
 

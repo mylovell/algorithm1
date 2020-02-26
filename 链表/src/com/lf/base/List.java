@@ -5,7 +5,7 @@ public interface List<E> {
 	// 常量
 	static final int ELEMENT_NOT_FOUND = -1;
 	
-	// 抽象方法
+	// 抽象方法（外界常用的功能）
 	void clear();
 	int size();
 	boolean isEmpty();

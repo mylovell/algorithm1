@@ -1,13 +1,14 @@
-package com.lf.linkedlist;
+package com.lf.base;
 
-/*
+/**
  * 单向链表
+ * @author fengluo
+ *
+ * @param <E>
  */
-public class SingleLinkedList<E> {
+public class SLList<E> extends AbstractList<E> {
 	
-	private int size;
 	private Node<E> first;
-	public static final int ELEMENT_NOT_FOUND = -1;
 	
 	private static class Node<E> {
 		E element;
@@ -29,22 +30,14 @@ public class SingleLinkedList<E> {
 		}
 	}
 	
-	
-	
+
+	@Override
 	public void clear() {
 		size = 0;
 		first = null;
 	}
-	public int size() {
-		return size;
-	}
-	public boolean isEmpty() {
-		return size == 0;
-	}
-	
-	public void add(E element) {
-		add(size, element);
-	}
+
+	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
 		
@@ -60,6 +53,8 @@ public class SingleLinkedList<E> {
 		}
 		size++;
 	}
+
+	@Override
 	public E remove(int index) {
 		rangeCheck(index);
 		
@@ -75,17 +70,20 @@ public class SingleLinkedList<E> {
 		return node.element;
 	}
 	
+	@Override
 	public E set(int index, E element) {
 		Node<E> node = node(index);
 		E old = node.element;
 		node.element = element;
 		return old;
 	}
-	
+
+	@Override
 	public E get(int index) {
 		return node(index).element;
 	}
-	
+
+	@Override
 	public int indexOf(E element) {
 		
 		Node<E> node = first;
@@ -103,27 +101,6 @@ public class SingleLinkedList<E> {
 		return ELEMENT_NOT_FOUND;
 	}
 	
-	public boolean contains(E element) {
-		return indexOf(element) != ELEMENT_NOT_FOUND;
-	}
-	
-	private void rangeCheckForAdd(int index) {
-		if (index < 0 || index > size) {
-			outOfBounds(index);
-		};
-	}
-	
-
-	private void rangeCheck(int index) {
-		if (index < 0 || index >= size) {
-			outOfBounds(index);
-		};
-	}
-	
-	private void outOfBounds(int index) {
-		throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
-	}
-
 	private Node<E> node(int index) {
 		rangeCheck(index);
 		

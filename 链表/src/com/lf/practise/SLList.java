@@ -1,15 +1,19 @@
-package com.lf.linkedlist;
+package com.lf.practise;
 
-/*
+import com.lf.base.AbstractList;
+import com.lf.base.List;
+
+/**
  * 单向链表
+ * @author fengluo
+ *
+ * @param <E>
  */
-public class SingleLinkedList<E> {
+public class SLList<E> extends AbstractList<E> {
 	
-	private int size;
-	private Node<E> first;
-	public static final int ELEMENT_NOT_FOUND = -1;
+	public Node<E> first;
 	
-	private static class Node<E> {
+	public static class Node<E> {
 		E element;
 		Node<E> next;
 		public Node(E element, Node<E> next) {
@@ -29,22 +33,14 @@ public class SingleLinkedList<E> {
 		}
 	}
 	
-	
-	
+
+	@Override
 	public void clear() {
 		size = 0;
 		first = null;
 	}
-	public int size() {
-		return size;
-	}
-	public boolean isEmpty() {
-		return size == 0;
-	}
-	
-	public void add(E element) {
-		add(size, element);
-	}
+
+	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
 		
@@ -60,6 +56,8 @@ public class SingleLinkedList<E> {
 		}
 		size++;
 	}
+
+	@Override
 	public E remove(int index) {
 		rangeCheck(index);
 		
@@ -75,17 +73,20 @@ public class SingleLinkedList<E> {
 		return node.element;
 	}
 	
+	@Override
 	public E set(int index, E element) {
 		Node<E> node = node(index);
 		E old = node.element;
 		node.element = element;
 		return old;
 	}
-	
+
+	@Override
 	public E get(int index) {
 		return node(index).element;
 	}
-	
+
+	@Override
 	public int indexOf(E element) {
 		
 		Node<E> node = first;
@@ -103,27 +104,6 @@ public class SingleLinkedList<E> {
 		return ELEMENT_NOT_FOUND;
 	}
 	
-	public boolean contains(E element) {
-		return indexOf(element) != ELEMENT_NOT_FOUND;
-	}
-	
-	private void rangeCheckForAdd(int index) {
-		if (index < 0 || index > size) {
-			outOfBounds(index);
-		};
-	}
-	
-
-	private void rangeCheck(int index) {
-		if (index < 0 || index >= size) {
-			outOfBounds(index);
-		};
-	}
-	
-	private void outOfBounds(int index) {
-		throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
-	}
-
 	private Node<E> node(int index) {
 		rangeCheck(index);
 		
@@ -146,5 +126,65 @@ public class SingleLinkedList<E> {
 		string.append("]");
 		return string.toString();
 	}
+	
+	
+	
+	
+	public void testReverse() {
+		SLList<Integer> slList = new SLList<Integer>();
+		slList.add(1);
+		slList.add(2);
+		slList.add(3);
+		slList.add(4);
+		
+		System.out.println("原先：" + slList);
+		slList.reverse();
+		System.out.println("反转：" + slList);
+		
+	}
+	
+	/**
+	 * 链表反转
+	 */
+	public void reverse() {
+		if (this.size <= 1) return;
+		Node<E> newHead = reverseList2(this.first);
+		this.first = newHead;
+	}
+	
+	/** 递归
+	 * 反转链表，返回 newHead
+	 * @param oldHead
+	 * @return
+	 */
+	private Node<E> reverseList1(Node<E> oldHead) {
+		if (oldHead == null || oldHead.next == null) { return oldHead;}
+		
+		Node<E> newHead = reverseList1(oldHead.next);
+		oldHead.next.next = oldHead;
+		oldHead.next = null;
+		
+		return newHead;
+	}
+	
+	
+	/** 非递归、头插法
+	 * 反转链表
+	 * @param head
+	 * @return
+	 */
+	private Node<E> reverseList2(Node<E> head) {
+		if (head == null || head.next == null) { return head;}
+		
+		Node<E> newHead = null;
+		while (head != null) {
+			Node<E>tmp = head.next;
+			head.next = newHead;
+			newHead = head;
+			head = tmp;
+		}
+		return newHead;
+	}
+	
 	
 }

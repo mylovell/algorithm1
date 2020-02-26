@@ -1,6 +1,13 @@
 package com.lf.test;
 
 import com.lf.linkedlist.SingleLinkedList;
+import com.lf.base.DAList;
+import com.lf.base.DCLList;
+import com.lf.base.DCLList2;
+import com.lf.base.DLList;
+import com.lf.base.List;
+import com.lf.base.SCLList;
+import com.lf.base.SLList;
 import com.lf.linkedlist.DoubleCircleLinkedList;
 import com.lf.linkedlist.DoubleCircleLinkedList2;
 import com.lf.linkedlist.DoubleLinkedList;
@@ -9,25 +16,34 @@ import com.lf.linkedlist.SingleCircleLinkedList;
 
 public class Test_SingleLinkedList {
 
-	public static void main(String[] args) {	
+	public static void main(String[] args) {
+		
+		new com.lf.practise.SLList<Integer>().testReverse();
 		
 		
 		// 动态数组
 //		testList(new ArrayList<>());
+//		testList(new DAList<Integer>());
 		
 		// 单向链表
 //		testList(new SingleLinkedList<Integer>());
+//		testList(new SLList<Integer>());
 		
 		// 双向链表
 //		testList(new DoubleLinkedList<Integer>());
+//		testList(new DLList<Integer>());
 		
 		// 单向循环链表
 //		testList(new SingleCircleLinkedList<Integer>());
+//		testList(new SCLList<Integer>());
 		
 		// 双向循环链表
 //		testList(new DoubleCircleLinkedList<Integer>());
+//		testList(new DCLList<Integer>());
+		
 		// 双向循环链表（加强版）
 //		josephus(new DoubleCircleLinkedList2<Integer>());
+//		josephus(new DCLList2<Integer>());
 		
 	}
 	
@@ -75,7 +91,7 @@ public class Test_SingleLinkedList {
 		4
 		7
 	 */
-	static void josephus(DoubleCircleLinkedList2<Integer> list) {
+	static void josephus(DCLList2<Integer> list) {
 		for (int i = 1; i <= 8; i++) {
 			list.add(i);
 		}

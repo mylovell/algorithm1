@@ -1,13 +1,14 @@
-package com.lf.linkedlist;
+package com.lf.base;
 
-/*
+/**
  * 单向循环链表
+ * @author fengluo
+ *
+ * @param <E>
  */
-public class SingleCircleLinkedList<E> {
+public class SCLList<E> extends AbstractList<E> {
 	
-	private int size;
 	private Node<E> first;
-	public static final int ELEMENT_NOT_FOUND = -1;
 	
 	private static class Node<E> {
 		E element;
@@ -31,24 +32,14 @@ public class SingleCircleLinkedList<E> {
 		
 
 	}
-	
-	
+
+	@Override
 	public void clear() {
-		//first.next = null;
 		first = null;
 		size = 0;
 	}
-	public int size() {
-		return size;
-	}
-	public boolean isEmpty() {
-		return size == 0;
-	}
-	
-	public void add(E element) {
-		add(size, element);
-	}
-	
+
+	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
 		
@@ -82,8 +73,9 @@ public class SingleCircleLinkedList<E> {
 		
 		size++;
 		
-	} //考虑2个边界：最前面和最后面，因为设计到变量 first 的值的变化
-	
+	}
+
+	@Override
 	public E remove(int index) {
 		rangeCheck(index);
 		
@@ -109,19 +101,22 @@ public class SingleCircleLinkedList<E> {
 		size--;
 		return old.element;
 		
-	}// 如上，考虑最前面和最后面的情况
-	
+	}
+
+	@Override
 	public E set(int index, E element) {
 		Node<E> node = node(index);
 		E old = node.element;
 		node.element = element;
 		return old;
 	}
-	
+
+	@Override
 	public E get(int index) {
 		return node(index).element;
 	}
-	
+
+	@Override
 	public int indexOf(E element) {
 		
 		Node<E> node = first;
@@ -138,24 +133,7 @@ public class SingleCircleLinkedList<E> {
 		}
 		return ELEMENT_NOT_FOUND;
 	}
-	public boolean contains(E element) {
-		return indexOf(element) != ELEMENT_NOT_FOUND;
-	}
-
-	// 5个private辅助
-	private void rangeCheckForAdd(int index) {
-		if (index < 0 || index > size) {
-			outOfBounds(index);
-		};
-	}
-	private void rangeCheck(int index) {
-		if (index < 0 || index >= size) {
-			outOfBounds(index);
-		};
-	}
-	private void outOfBounds(int index) {
-		throw new IndexOutOfBoundsException("Index = " + index + "size = " + size);
-	}
+	
 	private Node<E> node(int index) {
 		rangeCheck(index); 
 		
@@ -181,5 +159,5 @@ public class SingleCircleLinkedList<E> {
 		string.append("]");
 		return string.toString();
 	}
-	
+
 }
