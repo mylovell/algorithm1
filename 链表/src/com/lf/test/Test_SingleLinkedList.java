@@ -1,13 +1,14 @@
 package com.lf.test;
 
 import com.lf.linkedlist.SingleLinkedList;
-import com.lf.base.DAList;
-import com.lf.base.DCLList;
-import com.lf.base.DCLList2;
-import com.lf.base.DLList;
-import com.lf.base.List;
-import com.lf.base.SCLList;
-import com.lf.base.SLList;
+import com.lf.list.DAList;
+import com.lf.list.DCLList;
+import com.lf.list.DCLList2;
+import com.lf.list.DLList;
+import com.lf.list.List;
+import com.lf.list.SCLList;
+import com.lf.list.SLList;
+import com.lf.practise.SLList.Node;
 import com.lf.linkedlist.DoubleCircleLinkedList;
 import com.lf.linkedlist.DoubleCircleLinkedList2;
 import com.lf.linkedlist.DoubleLinkedList;
@@ -106,6 +107,7 @@ public class Test_SingleLinkedList {
 		}
 	}
 
+	
 	
 
 }

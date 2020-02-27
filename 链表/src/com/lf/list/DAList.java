@@ -1,4 +1,4 @@
-package com.lf.base;
+package com.lf.list;
 
 /**
  * 动态数组 DAList：dynamic array list 。

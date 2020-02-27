@@ -1,16 +1,15 @@
 package com.lf.practise;
 
 import com.lf.list.AbstractList;
-import com.lf.list.List;
 import com.lf.practise.SLList.Node;
 
 /**
- * 单向链表:增加链表反转功能
- * @author FengLuo
+ * 单向循环链表 -- 增加了是否成环功能
+ * @author fengluo
  *
  * @param <E>
  */
-public class SLList<E> extends AbstractList<E> {
+public class SCLList<E> extends AbstractList<E> {
 	
 	public Node<E> first;
 	
@@ -28,52 +27,85 @@ public class SLList<E> extends AbstractList<E> {
 			s.append(element).append("_").append(nextElement);
 			return s.toString();
 		}
+		
 		@Override
 		public void finalize() {
 			System.out.println("finalize = " + this.element);
 		}
+		
+
 	}
-	
 
 	@Override
 	public void clear() {
-		size = 0;
 		first = null;
+		size = 0;
 	}
 
 	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
 		
-		// 考虑1个边界：添加在最前面，涉及到变量 first 的值的变化
 		if (index == 0) {
+			if (size == 0) {
+				Node<E> next = first;
+				Node<E> prev = null;
+				Node<E> node = new Node<>(element, next);
+				prev = node;
+				first = node;
+				prev.next = node;
+			} else {
+				Node<E> next = first;
+				Node<E> prev = node(size - 1);
+				Node<E> node = new Node<>(element, next);
+				first = node;
+				prev.next = node;
+			}
+		} else if (index == size) {
+			Node<E> prev = node(size - 1);
 			Node<E> next = first;
-			Node<E> current = new Node<>(element, next);
-			first = current;
+			Node<E> node = new Node<>(element, next);
+			prev.next = node;
+			
 		} else {
-			Node<E> pre = node(index - 1);
-			Node<E> current = new Node<>(element, pre.next);
-			pre.next = current;
+			Node<E> prev = node(index - 1);
+			Node<E> next = prev.next;
+			Node<E> node = new Node<>(element, next);
+			prev.next = node;
 		}
+		
 		size++;
+		
 	}
 
 	@Override
 	public E remove(int index) {
 		rangeCheck(index);
 		
-		Node<E> node = first;
+		Node<E> old;
 		if (index == 0) {
-			first = first.next;
+			if (size == 1) {
+				old = first;
+				first = null;
+			} else {
+				old = first;
+				Node<E> prev = node(size - 1);
+				Node<E> next = first.next;
+				first = next;
+				prev.next = next;
+			}
 		} else {
-			Node<E> pre = node(index - 1);
-			node = pre.next;
-			pre.next = node.next;
+			Node<E> prev = node(index - 1);
+			old = prev.next;
+			Node<E> next = old.next;
+			prev.next = next;
 		}
+		
 		size--;
-		return node.element;
+		return old.element;
+		
 	}
-	
+
 	@Override
 	public E set(int index, E element) {
 		Node<E> node = node(index);
@@ -106,7 +138,7 @@ public class SLList<E> extends AbstractList<E> {
 	}
 	
 	private Node<E> node(int index) {
-		rangeCheck(index);
+		rangeCheck(index); 
 		
 		Node<E> node = first;
 		for (int i = 0; i < index; i++) {
@@ -115,9 +147,12 @@ public class SLList<E> extends AbstractList<E> {
 		return node;
 	}
 	
+	/*
+	 * size = size, [node, node, ...]
+	 */
 	public String toString() {
 		StringBuilder string = new StringBuilder();
-		string.append("size=").append(size).append(", first=").append(first).append(", [");
+		string.append("size = ").append(size).append(", first=").append(first).append(", [");
 		Node<E> node = first;
 		for (int i = 0; i < size; i++) {
 			if (i != 0) { string.append(", "); }
@@ -129,74 +164,26 @@ public class SLList<E> extends AbstractList<E> {
 	}
 	
 	
-	
 	/**
-	 * 测试链表反转
-	 */
-	public void testReverse() {
-		SLList<Integer> slList = new SLList<Integer>();
-		slList.add(1);
-		slList.add(2);
-		slList.add(3);
-		slList.add(4);
-		
-		
-		System.out.println("原先：" + slList);
-		slList.reverse();
-//		System.out.println(slList.first);
-		
-		Node<Integer> node = slList.first;
-		do {
-			System.out.println(node.element);
-		} while ((node = node.next) != null);
-//		System.out.println("反转：" + slList);
-		
-	}
-	
-	/**
-	 * 链表反转
-	 */
-	public void reverse() {
-		if (this.size <= 1) return;
-		Node<E> newHead = reverseList1(this.first);
-		this.first = newHead;
-	}
-	
-	/** 递归
-	 * 反转链表，返回 newHead
-	 * @param head
+	 * 是否成环
+	 * @param list
 	 * @return
 	 */
-	private Node<E> reverseList1(Node<E> head) {
-		if (head == null || head.next == null) { return head;}
+	private static boolean isCircle(SCLList<Integer> list) {
 		
-		Node<E> newHead = reverseList1(head.next);
-		head.next.next = head;
-		head.next = null;
+		if (list == null || list.size() <= 0) return false;
 		
-		return newHead;
-	}
-	
-	
-	/** 非递归、头插法
-	 * 反转链表
-	 * @param head
-	 * @return
-	 */
-	private Node<E> reverseList2(Node<E> head) {
-		if (head == null || head.next == null) { return head;}
+		Node<Integer> slow = list.first;
+		Node<Integer> fast = list.first.next;
 		
-		Node<E> newHead = null;
-		while (head != null) {
-			Node<E>tmp = head.next;
-			head.next = newHead;
-			newHead = head;
-			head = tmp;
+		for (int i = 0; i < list.size(); i++) {
+			if (slow == fast) { return true;}
+			if (fast == null) { return false; }
+			slow = slow.next;
+			fast = fast.next.next;
 		}
-		return newHead;
+		return false;
+		
 	}
-	
-	
-	
-	
+
 }

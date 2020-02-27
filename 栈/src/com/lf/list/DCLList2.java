@@ -1,16 +1,16 @@
-package com.lf.base;
+package com.lf.list;
 
 /**
- * 双向循环链表
+ * 双向循环链表--加强版
  * @author fengluo
  *
  * @param <E>
  */
-public class DCLList<E> extends AbstractList<E> {
-	
+public class DCLList2<E> extends AbstractList<E> {
 
 	private Node<E> first;
 	private Node<E> last;
+	private Node<E> current;
 	
 	private static class Node<E> {
 		E element;
@@ -34,6 +34,56 @@ public class DCLList<E> extends AbstractList<E> {
 			System.out.println("finalize = " + this.element);
 		}
 	}
+	
+	
+
+	// 加强版新增的3个方法
+	public void reset() {
+		current = first;
+	}
+	
+	public E next() {
+		if (current == null) return null;
+		
+		current = current.next;
+		return current.element;
+	}
+	
+	private E remove(Node<E> node) {
+		
+		E old = node.element;
+		
+		Node<E> prev = node.prev;
+		Node<E> next = node.next;
+		if (prev == next) {
+			first = last = null;
+		} else if (prev == last) {
+			prev.next = next;
+			next.prev = prev;
+			first = next;
+		} else if (next == first) {
+			prev.next = next;
+			next.prev = prev;
+			last = prev;
+		} else {
+			prev.next = next;
+			next.prev = prev;
+		}
+		
+		size --;
+		return old;
+	}
+	
+	public E remove() {
+		if (current == null) return null;
+		
+		Node<E> next = current.next;
+		E element = remove(current);
+		current = size == 0 ? null : next;
+		
+		return element;
+	}
+	
 
 	@Override
 	public void clear() {
@@ -165,21 +215,4 @@ public class DCLList<E> extends AbstractList<E> {
 		}
 	}
 
-	/*
-	 *  size = size, [node, node, ....]
-	 */
-	public String toString() {
-		StringBuilder s = new StringBuilder();
-		s.append("size = ").append(size).append(", [");
-		Node<E> node = first;
-		
-		for (int i = 0; i < size; i++) {
-			if (i != 0) { s.append(", "); }
-			s.append(node);
-			node = node.next;
-		}
-		s.append("]");
-		return s.toString();
-	}
-	
 }

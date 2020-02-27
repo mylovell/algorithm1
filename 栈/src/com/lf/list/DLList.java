@@ -1,4 +1,4 @@
-package com.lf.base;
+package com.lf.list;
 
 /**
  * 双向链表

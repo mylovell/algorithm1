@@ -5,6 +5,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="com/lf/base/文档.java|com/lf/base/链表文档.java|com/lf/linkedlist/链表文档.java|com/lf/base/接口抽象类抽取文档.java|com/lf/practise/反转和判断成环文档说明.java|com/lf/list/接口抽象类抽取文档.java" kind="src" path="src"/>
+	<classpathentry excluding="com/lf/stack/栈文档.java|com/lf/list/接口抽象类抽取文档.java" kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,21 +1,22 @@
-package com.lf.base;
+package com.lf.list;
 
 /**
- * 动态数组加强版————增加缩容功能 trim()
+ * 动态数组 DAList：dynamic array list 。
  * @author fengluo
  *
+ * @param <E>
  */
-public class DAList2<E> extends AbstractList<E> {
-
+public class DAList<E> extends AbstractList<E> {
+	
 	private E[] elements;
 	private static final int DEFAULT_CAPACITY = 10;
 	
-	public DAList2() {
+	public DAList() {
 		this(DEFAULT_CAPACITY);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public DAList2(int capacity) {
+	public DAList(int capacity) {
 		capacity = capacity < DEFAULT_CAPACITY ? DEFAULT_CAPACITY :capacity;
 		elements = (E[])new Object[capacity];
 	}
@@ -57,7 +58,6 @@ public class DAList2<E> extends AbstractList<E> {
 		
 		// 最后那个元素置为 null
 		elements[--size] = null;
-		trim();
 		
 		return old;
 	}
@@ -106,21 +106,6 @@ public class DAList2<E> extends AbstractList<E> {
 		System.out.println(oldCapacity + "扩容为" + newCapacity);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void trim() {
-		int oldCapacity = elements.length;
-		int newCapacity = oldCapacity >> 1;
-		if (newCapacity < size || oldCapacity <= DEFAULT_CAPACITY) { return; }
-		
-		E[] newElements = (E[])new Object[newCapacity];
-		for (int i = 0; i < size; i++) {
-			newElements[i] = elements[i];
-		}
-		elements = newElements;
-		
-		System.out.println(oldCapacity + "缩容为" + newCapacity);
-	}
-	
 	@Override
 	public String toString() {
 		
@@ -134,7 +119,5 @@ public class DAList2<E> extends AbstractList<E> {
 		string.append("]");
 		return string.toString();
 	}
-	
-	
 	
 }

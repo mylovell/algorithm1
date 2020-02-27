@@ -1,12 +1,12 @@
-package com.lf.base;
+package com.lf.list;
 
 /**
- * 单向循环链表
+ * 单向链表
  * @author fengluo
  *
  * @param <E>
  */
-public class SCLList<E> extends AbstractList<E> {
+public class SLList<E> extends AbstractList<E> {
 	
 	private Node<E> first;
 	
@@ -24,85 +24,52 @@ public class SCLList<E> extends AbstractList<E> {
 			s.append(element).append("_").append(nextElement);
 			return s.toString();
 		}
-		
 		@Override
 		public void finalize() {
 			System.out.println("finalize = " + this.element);
 		}
-		
-
 	}
+	
 
 	@Override
 	public void clear() {
-		first = null;
 		size = 0;
+		first = null;
 	}
 
 	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
 		
+		// 考虑1个边界：添加在最前面，涉及到变量 first 的值的变化
 		if (index == 0) {
-			if (size == 0) {
-				Node<E> next = first;
-				Node<E> prev = null;
-				Node<E> node = new Node<>(element, next);
-				prev = node;
-				first = node;
-				prev.next = node;
-			} else {
-				Node<E> next = first;
-				Node<E> prev = node(size - 1);
-				Node<E> node = new Node<>(element, next);
-				first = node;
-				prev.next = node;
-			}
-		} else if (index == size) {
-			Node<E> prev = node(size - 1);
 			Node<E> next = first;
-			Node<E> node = new Node<>(element, next);
-			prev.next = node;
-			
+			Node<E> current = new Node<>(element, next);
+			first = current;
 		} else {
-			Node<E> prev = node(index - 1);
-			Node<E> next = prev.next;
-			Node<E> node = new Node<>(element, next);
-			prev.next = node;
+			Node<E> pre = node(index - 1);
+			Node<E> current = new Node<>(element, pre.next);
+			pre.next = current;
 		}
-		
 		size++;
-		
 	}
 
 	@Override
 	public E remove(int index) {
 		rangeCheck(index);
 		
-		Node<E> old;
+		Node<E> node = first;
 		if (index == 0) {
-			if (size == 1) {
-				old = first;
-				first = null;
-			} else {
-				old = first;
-				Node<E> prev = node(size - 1);
-				Node<E> next = first.next;
-				first = next;
-				prev.next = next;
-			}
+			first = first.next;
 		} else {
-			Node<E> prev = node(index - 1);
-			old = prev.next;
-			Node<E> next = old.next;
-			prev.next = next;
+			Node<E> pre = node(index - 1);
+			node = pre.next;
+			pre.next = node.next;
 		}
-		
 		size--;
-		return old.element;
-		
+		return node.element;
 	}
-
+	
 	@Override
 	public E set(int index, E element) {
 		Node<E> node = node(index);
@@ -135,7 +102,7 @@ public class SCLList<E> extends AbstractList<E> {
 	}
 	
 	private Node<E> node(int index) {
-		rangeCheck(index); 
+		rangeCheck(index);
 		
 		Node<E> node = first;
 		for (int i = 0; i < index; i++) {
@@ -144,12 +111,9 @@ public class SCLList<E> extends AbstractList<E> {
 		return node;
 	}
 	
-	/*
-	 * size = size, [node, node, ...]
-	 */
 	public String toString() {
 		StringBuilder string = new StringBuilder();
-		string.append("size = ").append(size).append(", first=").append(first).append(", [");
+		string.append("size=").append(size).append(", first=").append(first).append(", [");
 		Node<E> node = first;
 		for (int i = 0; i < size; i++) {
 			if (i != 0) { string.append(", "); }
@@ -159,5 +123,5 @@ public class SCLList<E> extends AbstractList<E> {
 		string.append("]");
 		return string.toString();
 	}
-
+	
 }
