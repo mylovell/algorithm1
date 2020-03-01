@@ -2,7 +2,6 @@ package com.lf.practise;
 
 import com.lf.list.AbstractList;
 import com.lf.list.List;
-import com.lf.practise.SLList.Node;
 
 /**
  * 单向链表:增加链表反转功能
