@@ -1,7 +1,7 @@
 # 描述：
 desc '使用 Manager 这个航道, 可以快速的对自己的私有库, 进行升级维护'
 
-# 使用方法 ： fastlane Manager 
+# 使用方法 ： fastlane Manager msg:
 
 # 本航道名：Manager
 lane :Manager do |options|

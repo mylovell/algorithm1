@@ -9,6 +9,13 @@ public void add(E element);
 public void remove(E element);
 public boolean contains(E element);
 
+辅助：
+private void elementNotNullCheck(E element) {}
+private int compare(E e1, E e2) {}
+private Node<E> node(E element) {}
+private void remove(Node<E> node) {}
+private Node<E> predecessor(Node<E> node) {}
+private Node<E> successor(Node<E> node) {}
 
 
 内部设计
@@ -32,12 +39,10 @@ public static abstract class Visitor<E> {
 	boolean stop;
 	public abstract boolean visit(E element);
 }
-private int compare(E e1, E e2);
-private Node<E> node(E element);
-private void remove(Node<E> node);
 
-private Node<E> predecessor(Node<E> node) {}
-private Node<E> successor(Node<E> node) {}
+
+
+
 
 public void preorder(Visitor<E> visitor) {}
 private void preorder(Node<E> node, Visitor<E> visitor) {}
@@ -57,8 +62,6 @@ private int height(Node<E> node) {}
 
 public String toString() {}
 private void toString(Node<E> node, StringBuilder sb, String prefix) {}
-
-private void elementNotNullCheck(E element) {}
 
 
 1. 构造方法(比较器)；
