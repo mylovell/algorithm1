@@ -15,13 +15,10 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
-### Manager
-
-使用方法
+### Manager 使用方法：
 ```
 fastlane Manager msg:
 ```
-
 使用 Manager 这个航道, 可以快速的对自己的私有库, 进行升级维护
 
 ----

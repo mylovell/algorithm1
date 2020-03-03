@@ -1,5 +1,5 @@
 
-Binary Search Tree 二叉搜索树接口设计：
+Binary Search Tree 二叉搜索树接口设计：增、删、查
 
 public int size();
 public boolean isEmpty();
@@ -16,16 +16,7 @@ private Node<E> node(E element) {}
 private void remove(Node<E> node) {}
 private Node<E> predecessor(Node<E> node) {}
 private Node<E> successor(Node<E> node) {}
-
-
-内部设计
-
-private int size;
-private Node<E> root;
-private Comparator<E> comparator;
-
-// 内部类
-private static class Node<E> {
+private static class Node<E> { // 内部类
 	public boolean hasTwoChildren();
 	E element;
 	Node<E> parent;
@@ -35,14 +26,19 @@ private static class Node<E> {
 	public Node(E element, Node<E> parent) {}
 	public boolean hasTwoChildren() {}
 }
+
+
+
+遍历设计：
+
+private int size;
+private Node<E> root;
+private Comparator<E> comparator;
+
 public static abstract class Visitor<E> {
 	boolean stop;
 	public abstract boolean visit(E element);
 }
-
-
-
-
 
 public void preorder(Visitor<E> visitor) {}
 private void preorder(Node<E> node, Visitor<E> visitor) {}
@@ -55,6 +51,10 @@ private void postorder(Node<E> node, Visitor<E> visitor) {}
 
 public void levelOrder(Visitor<E> visitor) {}
 
+
+
+附加功能设计：
+
 public boolean isComplete() {}
 
 public int height() {}
@@ -62,6 +62,7 @@ private int height(Node<E> node) {}
 
 public String toString() {}
 private void toString(Node<E> node, StringBuilder sb, String prefix) {}
+
 
 
 1. 构造方法(比较器)；

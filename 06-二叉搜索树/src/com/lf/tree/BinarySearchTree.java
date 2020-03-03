@@ -68,25 +68,52 @@ public class BinarySearchTree<E> {
 		remove(node(element));
 	}
 	
+	/* 
+	 * 1. node度为2：找到后继节点，该后继节点要么度为1，要么为0
+	 * 2. node度为1：让子节点替代位置
+	 * 3. node度为0：直接删掉
+	 */
 	private void remove(Node<E> node) {
+		if (node == null) return;
+		
+		size--;
 		
 		// 度为2，后继节点上位
 		if (node.hasTwoChildren()) {
 			Node<E> s = successor(node);
 			node.element = s.element;
+			node = s;
 		}
 		
+		// 到了这一步node度为1或者0
+		Node<E> replacement = node.left == null ? node.left : node.right;
+		
 		// 度为1
+		if (replacement != null) {
+			if (node == root) {
+				root = replacement;
+			} else if (replacement == replacement.parent.left) {
+				replacement.parent = node.parent;
+				node.parent.left = replacement;
+			} else {
+				replacement.parent = node.parent;
+				node.parent.right = replacement;
+			}
+		}
 		
-		
-		// 度为0
-		
-		
+		// 度为0， 叶子节点，replacement == null
+		if (node == root) {
+			root = null;
+		} else if (node == node.parent.left) {
+			node.parent.left = null;
+		} else {
+			node.parent.right = null;
+		}
 		
 	}
 	
 	public boolean contains(E element) {
-		
+		return node(element) != null;
 	}
 	
 	private void elementNotNullCheck(E element) {
@@ -147,7 +174,7 @@ public class BinarySearchTree<E> {
 	}
 	
 	/* 找比node大一点的那个节点：右边的子节点，或放node往左边走的父节点：
-	 * 1、node的右子节点；
+	 * 1、node的右子树中最小的节点；
 	 * 2、node的父节点 && 在父节点的左
 	 * 3、node的父节点 && 在父节点的右，继续往上，直到在父节点的左
 	 */
